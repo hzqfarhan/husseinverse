@@ -10,7 +10,8 @@ export default function CampusExplorer() {
       .then(({ initCampus }) => {
         if (!cancelled) dispose = initCampus();
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Campus initialization failed", error);
         const loading = document.getElementById("loading");
         if (loading && !cancelled)
           loading.innerHTML =
@@ -87,7 +88,7 @@ export default function CampusExplorer() {
         </p>
         <div className="places-heading">
           <h2>Explore the campus</h2>
-          <span id="visit-count">0 / 6</span>
+          <span id="visit-count">0 / 7</span>
         </div>
         <nav id="places" aria-label="Choose a campus landmark"></nav>
         <button className="tour-start" id="tour-start">
@@ -95,7 +96,8 @@ export default function CampusExplorer() {
           <span aria-hidden="true">↗</span>
         </button>
         <div className="panel-foot">
-          <span className="status-dot"></span> 6 places. At your own pace.
+          <span className="status-dot"></span>
+          <span id="place-total">7 places. At your own pace.</span>
         </div>
       </aside>
       <div id="place-toast" role="status" aria-live="polite"></div>
@@ -148,6 +150,14 @@ export default function CampusExplorer() {
           aria-label="Rotate camera"
         >
           ⟳
+        </button>
+        <button
+          id="plan-view"
+          className="icon-button"
+          aria-label="View building footprints from above"
+          title="View from above"
+        >
+          ▱
         </button>
         <button
           id="reset-view"

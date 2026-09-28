@@ -22,7 +22,9 @@ The Next.js App Router project uses `output: 'export'`. Its production output is
 
 ## Included
 
-- Six destinations: PTTA library, Dewan Sultan Ibrahim, Masjid Sultan Ibrahim, swimming centre, stadium, and an aerial campus view.
+- Seven destinations: PTTA library, Dewan Sultan Ibrahim, Masjid Sultan Ibrahim, FSKTM (Faculty of Computer Science and Information Technology), swimming centre, stadium, and an aerial campus view.
+- Rebuilt FSKTM with an eight-level central tower, four-level wings, the angled left SMC@FSKTM wing, and the straight right wing.
+- Campus building outlines, positions and orientations traced from the official map, with major roads and ponds. An overhead camera control makes footprints easy to inspect.
 - Orbiting campus view, smooth camera transitions, zoom, daylight/evening lighting, and selectable landmark markers.
 - Third-person walking using WASD, arrow keys or on-screen controls. Shift runs; V changes view. Drag turns the camera.
 - Building collision boundaries and checked arrival points.
@@ -32,17 +34,32 @@ The Next.js App Router project uses `output: 'export'`. Its production output is
 
 ## Accuracy and current limits
 
-This is an **independent prototype, not an official UTHM service or a surveyed digital twin**. The 3D campus is an original simplified interpretation. Major landmark relationships were checked against the January 2023 official campus map. The library and mosque use visual cues from official photographs. Other building dimensions, roads, landscaping and the avatar are illustrative. The compass indicates camera rotation, not verified geographic north. Building interiors are not modeled.
+This is an **independent prototype, not an official UTHM service or a surveyed digital twin**. The layout uses 190 footprint components traced from the January 2023 official campus map; these are map components, not a verified count of separate buildings. Detailed landmark models replace their corresponding traced shapes. Other buildings retain the map's outlines and angles but use estimated heights and simplified facades. Major roads and ponds follow the schematic map; landscaping is illustrative. The map is not a current survey and has no verified north bearing. The compass indicates camera rotation. Building interiors and concealed elevations are not reconstructed.
 
 The real panorama media remain hosted by Momento360 and are credited to UTHM's published tour. The top-level library panorama was visually verified. Embedded panoramas did not render inside the development app's in-app browser, so every tour stop includes **Open full view** as a direct alternative and a delayed-loading message. External media availability depends on that provider and the visitor's browser. This implementation does not download or rehost the panorama files.
 
-The 3D scene, landmark selection, walking mode, visit state and production build were checked. All arrival positions are validated against collision bounds during initialization. Phone-specific styles are included, but the available browser's viewport override did not take effect, so phone rendering needs a real-device check.
+The seven-destination scene, FSKTM selection, overhead view, walking arrival and production build were checked. Every arrival position is validated against collision bounds during initialization. Run `npm test` for checks covering rotated wings, concave footprints and open courtyards. Phone-specific styles are included, but the available browser's viewport override did not take effect, so phone rendering needs a real-device check.
+
+## FSKTM reference and refinement
+
+The original model in `lib/models/fsktm.js` follows the supplied `public/assets/directory` floor plans and `public/assets/reffsktm` photographs. The directory shows Ground through Seventh in the central tower and Ground through Third in both wings. The right wing continues straight across the tower junction; the left wing turns forward by approximately 35 degrees. That angle is estimated from the photographed plans, not a measured survey. These newer references take precedence over the campus map's simplified block P outline.
+
+The two wings have different facades. The left uses long corridor window bands, piers, a tall louvred panel and blue SMC@FSKTM lettering with a red @. The right uses grouped window bays, contrasting vertical panels and rooftop solar arrays. The tower includes rounded front corners, green window columns, projecting shades and a recessed entrance. Roof overhangs, parking and a shaded forecourt complete the exterior. Dimensions, concealed connections, rear elevations and landscaping remain approximate.
+
+The supplied photographs were also compared with the UTHM-authored front photograph and the aerial photograph on page 79 of _Discovery Awaits: Unveiling UTHM_. The references document different views and dates; they do not establish every detail of the building's current condition.
+
+FSKTM's photographic tour reference is UTHM's second campus aerial panorama, `350dd70abf1a47ccbe278d5ad0787a5d`. Its FSKTM hotspot was visually confirmed during reference review. The button is labeled **View aerial · 360°** because this is an aerial campus reference, not a dedicated ground-level FSKTM panorama.
 
 ## Project structure
 
 - `app/`: Next.js App Router page, metadata and global styles.
 - `components/CampusExplorer.jsx`: React interface and client-only scene lifecycle.
 - `lib/campus.js`: Three.js scene, landmark data, controls, tour state and navigation tools.
+- `lib/models/fsktm.js`: original FSKTM exterior reconstructed from the supplied plans and photographs.
+- `lib/campus-layout.js`: source-map coordinates, footprint traces, roads, ponds and landmark placements.
+- `lib/mapped-campus.js`: rendering of the traced campus surroundings.
+- `lib/navigation.js`: rotated and polygonal collision boundaries, including courtyards.
+- `public/assets/directory/` and `public/assets/reffsktm/`: user-supplied reference images, preserved unchanged.
 - `public/icon.svg`: project icon.
 - `scripts/serve.mjs`: local server for the built static export.
 - `.openai/hosting.json`: optional private Sites deployment identity; no credentials.
@@ -73,5 +90,8 @@ There is no verified evidence that either reference used Blender MCP. MCP can au
 - [UTHM Sports Centre facilities](https://sukan.uthm.edu.my/index.php/facilities-and-services)
 - [Official mosque photograph used as modeling reference](https://pi.uthm.edu.my/images/Masjid/Masjid%20view%20sebelah%20kanan.jpg)
 - [Official library photograph used as modeling reference](https://io.uthm.edu.my/media/yootheme/cache/f1/ptta%20banner-f1ef9fc6.png)
+- [UTHM second campus aerial panorama — FSKTM hotspot visually confirmed](https://momento360.com/e/u/350dd70abf1a47ccbe278d5ad0787a5d?field-of-view=75&heading=-28.73&pitch=-15.7&utm_campaign=embed&utm_source=other)
+- [Discovery Awaits: Unveiling UTHM — FSKTM aerial photograph, page 79](https://korporat.uthm.edu.my/images/penerbitan/Discovery%20Awaits%20Unveiling%20UTHM.pdf#page=79)
+- [Wikimedia Commons: UTHM FSKTM.jpg — front photograph authored by UTHM, dated 28 November 2011](https://commons.wikimedia.org/wiki/File:UTHM_FSKTM.jpg). The file page credits UTHM Photo Gallery and specifies [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/); used as a visual modeling reference.
 
 Original code and original scene geometry are included in this repository. External panoramas, linked university materials, fonts and npm packages retain their respective owners' rights and licenses. Their availability online does not transfer ownership to this project.

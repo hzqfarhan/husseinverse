@@ -1236,3 +1236,33 @@ dialog > p {
 .walking .world-caption {
   display: none;
 }
+
+@media (min-width: 761px) {
+  .inspecting-building .place-card {
+    bottom: 85px;
+    left: 32px;
+    right: auto;
+    width: 310px;
+    padding: 18px;
+  }
+  .inspecting-building .place-card p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .inspecting-building .place-card h2 {
+    margin: 8px 0;
+  }
+  .inspecting-building .world-caption {
+    display: none;
+  }
+  .inspecting-building #collapse-places {
+    display: grid;
+  }
+  .inspecting-building .places-panel.collapsed .panel-intro,
+  .inspecting-building .places-panel.collapsed .places-heading,
+  .inspecting-building .places-panel.collapsed #places,
+  .inspecting-building .places-panel.collapsed .tour-start,
+  .inspecting-building .places-panel.collapsed .panel-foot {
+    display: none;
+  }
+}
